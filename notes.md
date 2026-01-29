@@ -26,4 +26,22 @@ Pasos:
 4. Ahora se crea un job que se ejecuta automaticamente cuando se sube un nuevo commit a github. A diferencia del primer job, aquí seleccionamos github como el repositorio remoto y además seleccionamos la rama origin/feature** para que se active cuando se sube un nuevo commit a github
 5. Seleccionamos el trigger tipo github hook trigger
 6. Luego en Build steps seleccionamos Invoke top-level Maven targets y agregamos clean install
+
 Ahora vamos a configurar un webhook en github para que jenkins se active cuando se sube un nuevo commit a github
+1. Vamos a la configuración del repositorio en github y seleccionamos webhooks
+2. Hacemos clic en Add webhook
+3. En Payload URL ponemos la URL de ngrok + /github-webhook
+4. En Content type seleccionamos application/json
+5. En Which events would you like to trigger this webhook? seleccionamos Just the push event
+6. Hacemos clic en Add webhook
+
+Una vez que tenemos el webhook configurado, hemos probrado 2 automatizaciones:
+1. Un job que se ejecuta manualmente y que realiza un clean install de maven apuntando al archivo pom.xml
+2. Un job que ejecutamos manualmente y se encarga de hacer el merge en un pull request de github
+
+Probadas esas 2 configuraciones, ahora vamos a integrar jenkins con slack para que nos notifique cuando se ejecuta un job.
+1. Login en slack
+2. Crear un canal en slack llamado jenkins
+3. Instalar el plugin de slack en jenkins que se llama jenkins-ci (Aquí puede que el contenedor caiga por lo que lo volvermos a levantar con docker start jenkins-ci)
+4. Hacer la conexión entre jenkins y slack usando el token de slack y pasándolo en la configuración del plugin de slack en jenkins: Sección System Configuration -> Slack
+5. 
