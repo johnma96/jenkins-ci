@@ -2,6 +2,9 @@
 
 This repository contains the implementation of a Jenkins CI/CD pipeline, following a Jenkins course. It includes a custom Jenkins Docker image and a sample Spring Boot application.
 
+## Course
+URL: https://www.youtube.com/watch?v=LZDmM_t4XRg
+
 ## Project Structure
 
 - **Dockerfile**: Defines a custom Jenkins image with Docker and Maven pre-installed.
