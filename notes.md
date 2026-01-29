@@ -17,3 +17,13 @@ Diferencia clave con las APIs tradicionales
     - Webhooks: La API notifica al cliente en cuanto los datos están listos ("¡Aquí tienes los datos!"), sin necesidad de consultar continuamente.
 
 ## Curso: Se usa para gestionar el ciclo CI/CD, permitiendo que jenkins se active cuando se sube un nuevo commit a github
+
+Pasos:
+0. Configuramos un server de jenkins en un servidor local usando docker
+1. Creamos una tarea o job que se ejecuta manualmente, y verificamos que hiciera el clone del repo remoto y además un clean install de maven apuntando al archivo pom.xml
+2. Se expuso el server de jenkins usando ngrok a internet
+3. Se configuro el webhook en github para que jenkins se active cuando se sube un nuevo commit a github
+4. Ahora se crea un job que se ejecuta automaticamente cuando se sube un nuevo commit a github. A diferencia del primer job, aquí seleccionamos github como el repositorio remoto y además seleccionamos la rama origin/feature** para que se active cuando se sube un nuevo commit a github
+5. Seleccionamos el trigger tipo github hook trigger
+6. Luego en Build steps seleccionamos Invoke top-level Maven targets y agregamos clean install
+Ahora vamos a configurar un webhook en github para que jenkins se active cuando se sube un nuevo commit a github
