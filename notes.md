@@ -44,4 +44,25 @@ Probadas esas 2 configuraciones, ahora vamos a integrar jenkins con slack para q
 2. Crear un canal en slack llamado jenkins
 3. Instalar el plugin de slack en jenkins que se llama jenkins-ci (Aquí puede que el contenedor caiga por lo que lo volvermos a levantar con docker start jenkins-ci)
 4. Hacer la conexión entre jenkins y slack usando el token de slack y pasándolo en la configuración del plugin de slack en jenkins: Sección System Configuration -> Slack
-5. 
+5. Se habilitó Slack Notification en el job de jenkins para enviar notificaciones a slack cuando se ejecuta un job o existe cualquier acción sobre el job
+
+# Integración con SonarQube
+
+## Qué es SonarQube
+
+SonarQube es una plataforma de código abierto para la gestión de la calidad del código, que permite detectar errores, vulnerabilidades y "code smells" en el código fuente de una aplicación. Se integra con jenkins para automatizar el análisis de código y proporcionar métricas de calidad del código.
+
+## Pasos
+
+1. Levantar el servidor de sonarqube con docker: docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 sonarqube
+2. Conectar el servidor de sonarqube con jenkins: docker network connect jenkins_sonarqube jenkins
+3. Instalar el plugin de SonarQube Scanner en jenkins: Sección Manage Jenkins -> Manage Plugins -> Available -> SonarQube Scanner
+4. Configurar el plugin de SonarQube Scanner en jenkins: Sección Manage Jenkins -> Configure System -> SonarQube Servers
+5. Crear un token en sonarqube: Sección My Account -> Security -> Generate Token
+6. Configurar el token en jenkins: Sección Manage Jenkins -> Configure System -> SonarQube Servers -> Add Server -> Token
+7. Reordenar las tareas en jenkins para que se ejecuten en el orden correcto:
+    - Primero se trae el código de github
+    - Luego se ejecuta el job de sonarqube
+    - Luego se hace el merge en un pull request de github
+    - Luego se hace el clean install de maven
+    - Luego se ejecuta el job de slack para notificar el resultado del job
